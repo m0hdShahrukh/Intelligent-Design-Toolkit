@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Intelligent Design Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="logo.svg" sizes="192x192" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .sidebar-link.active {
+            color: #4f46e5;
+            /* theme('colors.indigo.600') */
+            font-weight: 600;
+            border-left-color: #4f46e5;
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg"><img src="bdb.svg" alt=""></span>
+                    <span class="text-xl font-bold font-heading text-indigo-600">Mohd Shahrukh</span>
+                </a>
+                <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="https://shahrukh-react.netlify.app/ms-tools-hub.html" class="hover:text-indigo-600">Tools Dashboard</a>
+                    <a href="https://shahrukh-react.netlify.app/ms-code-editor" class="hover:text-indigo-600">Code Editor</a>
+                    <a href="https://shahrukh-react.netlify.app/ms-tools-hub.html" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Go to
+                        App</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex">
+            <!-- Sticky Sidebar Navigation -->
+            <aside class="hidden lg:block sticky top-16 w-64 h-[calc(100vh-4rem)] py-8 pr-8 flex-shrink-0">
+                <nav id="sidebar-nav" class="space-y-2">
+                    <a href="#introduction"
+                        class="sidebar-link flex items-center gap-3 px-3 py-2 text-gray-600 border-l-2 border-transparent hover:text-indigo-600 hover:border-indigo-600 transition-colors">Introduction</a>
+                    <a href="#font-matcher"
+                        class="sidebar-link flex items-center gap-3 px-3 py-2 text-gray-600 border-l-2 border-transparent hover:text-indigo-600 hover:border-indigo-600 transition-colors">Font
+                        Matcher</a>
+                    <a href="#scoring"
+                        class="sidebar-link flex items-center gap-3 px-3 py-2 text-gray-600 border-l-2 border-transparent hover:text-indigo-600 hover:border-indigo-600 transition-colors ml-4">↳
+                        Scoring Logic</a>
+                    <a href="#color-generator"
+                        class="sidebar-link flex items-center gap-3 px-3 py-2 text-gray-600 border-l-2 border-transparent hover:text-indigo-600 hover:border-indigo-600 transition-colors">Color
+                        Generator</a>
+                    <a href="#demo-page"
+                        class="sidebar-link flex items-center gap-3 px-3 py-2 text-gray-600 border-l-2 border-transparent hover:text-indigo-600 hover:border-indigo-600 transition-colors">Live
+                        Demo Page</a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="w-full lg:w-[calc(100%-16rem)] py-12 lg:pl-12">
+                <div
+                    class="prose prose-indigo max-w-none prose-p:text-gray-700 prose-headings:font-heading prose-h2:text-3xl prose-h3:text-2xl prose-h3:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b">
+
+                    <!-- Introduction -->
+                    <section id="introduction">
+                        <h2 class="font-semibold text-3xl mb-5 text-indigo-600">Introduction</h2>
+                        <p class="mb-6 text-lg leading-relaxed">The Intelligent Design Toolkit is a comprehensive web
+                            application designed to streamline the process of creating beautiful and cohesive visual
+                            designs. It helps designers and developers make confident choices about typography and color
+                            by providing intelligent suggestions and a powerful, real-time preview environment.</p>
+
+                        <div class="bg-gray-900 text-white rounded-lg p-6 my-8">
+                            <p class="text-lg text-gray-300 mb-0">This application was proudly developed by:</p>
+                            <p class="text-3xl font-bold font-heading mt-2 mb-0 tracking-wide">Mohd Shahrukh</p>
+                        </div>
+                    </section>
+
+                    <!-- Font Matcher -->
+                    <section id="font-matcher">
+                        <h2 class="font-semibold text-3xl mb-5 text-indigo-600">The Intelligent Font Matcher</h2>
+                        <p class="mb-6">This feature helps you find perfect font pairings instantly. Instead of
+                            guessing, you get a ranked list of fonts that are typographically compatible with your base
+                            selection.</p>
+
+                        <h3>How to Use It</h3>
+                        <ol class="list-decimal list-inside space-y-4 mb-8">
+                            <li><strong class="font-semibold">Click for Suggestions:</strong> Click an input field
+                                ("Heading" or "Body") to see a pre-curated list of popular fonts for that role.</li>
+                            <li><strong class="font-semibold">Search for a Font:</strong> Start typing a name to search
+                                the entire Google Fonts library.</li>
+                            <li><strong class="font-semibold">View Results:</strong> Once you select both fonts, a
+                                "Custom Pairing" card appears with your score. Below, you'll see the Top 5 recommended
+                                matches for your heading font.</li>
+                        </ol>
+                    </section>
+
+                    <!-- Scoring Logic -->
+                    <section id="scoring">
+                        <h3>How the Pairing Score is Calculated</h3>
+                        <p class="mb-6">The percentage score is a guideline based on classic typographic principles.
+                            Every font pair starts at <strong>50%</strong> and points are adjusted based on these rules:
+                        </p>
+
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg mb-6">
+                            <h4 class="font-bold text-green-800">Rule 1: Contrast (Serif + Sans-Serif) — Big Bonus (+40
+                                pts)</h4>
+                            <p class="mt-2 text-green-700 mb-0">The most classic rule. Pairing a font with decorative
+                                "feet" (Serif) with a clean font without them (Sans-Serif) creates a clear, readable
+                                hierarchy. This pairing always scores high.</p>
+                        </div>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6">
+                            <h4 class="font-bold text-blue-800">Rule 2: Family Harmony — Good Bonus (+25 pts)</h4>
+                            <p class="mt-2 text-blue-700 mb-0">Fonts from the same "superfamily" (e.g., Roboto and
+                                Roboto Slab) share an underlying structure and are guaranteed to look good together.</p>
+                        </div>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                            <h4 class="font-bold text-red-800">Rule 3: Clash Avoidance — Big Penalty (-50 pts)</h4>
+                            <p class="mt-2 text-red-700 mb-0">Pairing two highly decorative or script fonts creates
+                                visual chaos and is heavily penalized to discourage unreadable combinations.</p>
+                        </div>
+
+                        <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto"><code class="language-js">// Example Score Calculation:
+// Playfair Display (Serif) + Roboto (Sans-Serif)
+let score = 50; // Base score
+score += 40;  // Rule #1: Contrast bonus
+// Final Score: 90%
+                        </code></pre>
+                    </section>
+
+                    <!-- Color Generator -->
+                    <section id="color-generator">
+                        <h2 class="mt-5 font-semibold text-3xl mb-5 text-indigo-600">Advanced Color Palette Generator</h2>
+                        <p class="mb-6">This tool generates multiple, practical color palettes from a single base color,
+                            giving you a complete and usable color scheme for your projects.</p>
+
+                        <h3>Generated Palette Types</h3>
+                        <ul class="list-disc list-inside space-y-2 mb-8">
+                            <li><strong>Shades & Tints:</strong> A monochromatic palette of your base color.</li>
+                            <li><strong>Professional Complementary:</strong> A balanced opposite-color scheme.</li>
+                            <li><strong>Vibrant Analogous:</strong> A lively, adjacent-color scheme.</li>
+                            <li><strong>Corporate Triadic:</strong> A stable, three-point color scheme.</li>
+                        </ul>
+                    </section>
+
+                    <!-- Demo Page -->
+                    <section id="demo-page">
+                        <h1 class="font-semibold text-3xl mb-5 text-indigo-600">The Live Demo Page</h1>
+                        <p class="mb-6">The "Preview Full Design" button opens a comprehensive, multi-section webpage
+                            where your chosen fonts and colors are applied. This gives you a real-world test
+                            environment.</p>
+
+                        <h3>Interactive Customizer</h3>
+                        <ul class="list-disc list-inside space-y-4">
+                            <li><strong>Direct Drag-and-Drop:</strong> For ultimate control, drag any color from the
+                                "Full Palette" inside the customizer and drop it directly onto any element on the page
+                                (headings, buttons, icons, backgrounds).</li>
+                            <li><strong>Auto-Closing Panel:</strong> The panel automatically closes when you start
+                                dragging a color, giving you a full-screen view for dropping.</li>
+                            <li><strong>Undo Button:</strong> Made a mistake? The "Undo" button reverses your last color
+                                change.</li>
+                        </ul>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Sticky Go Home Button -->
+    <a href="index.html"
+        class="fixed bottom-5 right-5 z-50 bg-indigo-600 text-white font-semibold py-3 px-4 rounded-full shadow-lg hover:bg-indigo-700 transition-all transform hover:scale-105 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span class="hidden sm:inline">Go Home</span>
+    </a>
+
+    <script>
+        // JS for active sidebar link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLi = document.querySelectorAll('#sidebar-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLi.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === `#${current}`) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

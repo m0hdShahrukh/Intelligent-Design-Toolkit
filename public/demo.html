@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Design Toolkit | By Mohd Shahrukho</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="%PUBLIC_URL%/logo.svg" type="image/svg+xml" />
+    <style id="font-styles"></style>
+    <style>
+        :root {
+            /* Color & Font Family Variables */
+            --color-background: #FFFFFF;
+            --color-text: #1F2937;
+            --color-primary: #4f46e5;
+            --color-secondary: #10b981;
+            --color-accent: #f59e0b;
+            --color-muted: #6B7280;
+            --color-footer-bg: #111827;
+            --color-footer-text: #9CA3AF;
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --gradient-start: var(--color-primary);
+            --gradient-end: var(--color-secondary);
+        }
+
+        /* Base Styles */
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-family: var(--font-body);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-heading {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p {
+            line-height: 1.65;
+            color: var(--color-muted);
+        }
+
+        /* Themeable Colors & Effects */
+        .text-primary,
+        .hover\:text-primary:hover {
+            color: var(--color-primary);
+        }
+
+        .bg-primary {
+            background-color: var(--color-primary);
+        }
+
+        .border-primary {
+            border-color: var(--color-primary);
+        }
+
+        .text-secondary {
+            color: var(--color-secondary);
+        }
+
+        .bg-secondary {
+            background-color: var(--color-secondary);
+        }
+
+        .text-accent {
+            color: var(--color-accent);
+        }
+
+        .bg-accent {
+            background-color: var(--color-accent);
+        }
+
+        .text-muted {
+            color: var(--color-muted);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Interactivity Styles */
+        .droppable-hover {
+            outline: 3px dashed var(--color-accent) !important;
+            outline-offset: 4px;
+            border-radius: 0.5rem;
+        }
+
+        #customizer-panel {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        #customizer-panel.is-open {
+            transform: translateX(0);
+        }
+
+        #color-picker-popover {
+            display: none;
+            position: absolute;
+            z-index: 60;
+        }
+
+        .role-drop-zone.drag-over {
+            background-color: var(--color-primary) !important;
+            opacity: 0.2;
+        }
+    </style>
+</head>
+
+<body class="antialiased overflow-x-hidden">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg"><img src="bdb.svg" alt=""></span>
+                    <span class="text-xl font-bold font-heading text-indigo-600">Mohd Shahrukh</span>
+                </a>
+                <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="https://shahrukh-react.netlify.app/ms-tools-hub.html" class="hover:text-indigo-600">Tools Dashboard</a>
+                    <a href="https://shahrukh-react.netlify.app/ms-code-editor" class="hover:text-indigo-600">Code Editor</a>
+                    <a href="https://shahrukh-react.netlify.app/ms-tools-hub.html" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Go to
+                        App</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <header class="py-20 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="w-full lg:w-1/2 text-center lg:text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold">A <span class="text-primary">Perfectly
+                            Balanced</span> <br> <span class="gradient-text">Design System</span></h1>
+                    <p class="mt-6 text-lg max-w-xl mx-auto lg:mx-0">This is the ultimate demo page. Open the customizer
+                        to manage theme roles, or drag from the palette inside it to any element.</p>
+                    <div class="mt-8"><button class="px-8 py-4 rounded-lg font-bold btn-primary hover:opacity-90">Get
+                            Started</button></div>
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <div class="bg-white rounded-2xl shadow-xl p-2 floating-element"><img
+                            src="https://images.unsplash.com/photo-1592547097938-7942b22df3db?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="rounded-lg object-cover w-full h-full" alt="Hero Image"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-center font-semibold text-muted">Trusted by the world's most innovative companies</p>
+            <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center">
+                <div
+                    class="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all text-center text-4xl font-black text-muted">
+                    LOGO</div>
+                <div
+                    class="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all text-center text-4xl font-black text-muted">
+                    LOGO</div>
+                <div
+                    class="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all text-center text-4xl font-black text-muted">
+                    LOGO</div>
+                <div
+                    class="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all text-center text-4xl font-black text-muted">
+                    LOGO</div>
+                <div
+                    class="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all text-center text-4xl font-black text-muted">
+                    LOGO</div>
+                <div
+                    class="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all text-center text-4xl font-black text-muted">
+                    LOGO</div>
+            </div>
+        </div>
+    </div>
+
+    <section id="features" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold">Everything you need for <span class="text-primary">design
+                        consistency</span></h2>
+            </div>
+            <div class="mt-16 grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-2xl p-8 card">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary"><svg
+                            class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                        </svg></div>
+                    <h3 class="text-xl font-bold mt-6">Modular Components</h3>
+                    <p class="mt-3">Build interfaces with pre-built components.</p>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-8 card">
+                    <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center text-secondary">
+                        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z" />
+                        </svg></div>
+                    <h3 class="text-xl font-bold mt-6">Intuitive Design</h3>
+                    <p class="mt-3">An easy-to-use interface for everyone.</p>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-8 card">
+                    <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center text-accent"><svg
+                            class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg></div>
+                    <h3 class="text-xl font-bold mt-6">Developer Tools</h3>
+                    <p class="mt-3">Export clean code and sync with your tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div>
+                    <h2 class="text-5xl md:text-6xl font-bold gradient-text">10M+</h2>
+                    <p class="mt-3 text-lg font-medium text-muted">Active Users</p>
+                </div>
+                <div>
+                    <h2 class="text-5xl md:text-6xl font-bold gradient-text">500+</h2>
+                    <p class="mt-3 text-lg font-medium text-muted">Integrations</p>
+                </div>
+                <div>
+                    <h2 class="text-5xl md:text-6xl font-bold gradient-text">99.9%</h2>
+                    <p class="mt-3 text-lg font-medium text-muted">Uptime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold">A Glimpse of What's Possible</h2>
+                <p class="mt-4 text-lg">Showcasing the versatility of our design system in action.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid gap-4"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1658233427270-ba4d9d03b53c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Gallery image 1"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop"
+                        alt="Gallery image 2"></div>
+                <div class="grid gap-4"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=800&auto=format&fit=crop"
+                        alt="Gallery image 3"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Gallery image 4"></div>
+                <div class="grid gap-4"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1571757767119-68b8dbed8c97?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Gallery image 5"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Gallery image 6"></div>
+                <div class="grid gap-4"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1480796927426-f609979314bd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Gallery image 7"><img class="h-auto max-w-full rounded-lg card"
+                        src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Gallery image 8"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold">What people are saying</h2>
+            </div>
+            <div class="mt-16 grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 card relative">
+                    <div class="flex items-center mb-4"><img class="w-12 h-12 rounded-full object-cover"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
+                            alt="">
+                        <div class="ml-4">
+                            <h3 class="text-lg font-bold">Sarah Johnson</h3>
+                            <p class="text-sm text-muted">Product Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"This design system completely transformed our workflow and allowed us to
+                        maintain brand consistency."</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 card relative">
+                    <div class="flex items-center mb-4"><img class="w-12 h-12 rounded-full object-cover"
+                            src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200&auto=format&fit=crop"
+                            alt="">
+                        <div class="ml-4">
+                            <h3 class="text-lg font-bold">Michael Lee</h3>
+                            <p class="text-sm text-muted">Frontend Developer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"The developer experience is excellent. Exporting styles to code has cut
+                        our implementation time in half."</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 card relative">
+                    <div class="flex items-center mb-4"><img class="w-12 h-12 rounded-full object-cover"
+                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop"
+                            alt="">
+                        <div class="ml-4">
+                            <h3 class="text-lg font-bold">Emily Carter</h3>
+                            <p class="text-sm text-muted">Design Director</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"We've reduced onboarding time for new designers by 60%. The efficiency
+                        gains have been incredible."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="bg-primary text-white rounded-2xl shadow-xl p-12 text-center">
+                <h2 class="text-4xl font-bold">Ready to Elevate Your Design?</h2>
+                <p class="mt-4 text-lg opacity-80 max-w-2xl mx-auto">Start building beautiful, consistent user
+                    interfaces today with a system that works for you, not against you.</p><button
+                    class="mt-8 px-8 py-4 rounded-lg font-bold bg-accent hover:opacity-90">Try It Now For Free</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">Flexible Pricing Plans</h2>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                <div class="bg-gray-50 p-8 rounded-xl card flex flex-col">
+                    <h3 class="text-2xl font-bold">Starter</h3>
+                    <p class="mt-2 text-5xl font-bold">$29<span class="text-lg font-medium text-muted">/mo</span></p>
+                    <div class="flex-grow mt-6">
+                        <ul class="space-y-3 text-muted">
+                            <li>✓ 10 Projects</li>
+                            <li>✓ Basic Analytics</li>
+                            <li>✓ 24/7 Support</li>
+                        </ul>
+                    </div><button
+                        class="w-full mt-8 py-3 rounded-lg font-bold bg-gray-200 text-gray-800 hover:bg-gray-300">Choose
+                        Plan</button>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl border-2 border-primary card flex flex-col">
+                    <div class="text-center">
+                        <h3 class="text-3xl font-bold">Pro</h3>
+                        <p class="text-primary font-semibold">Most Popular</p>
+                    </div>
+                    <p class="mt-2 text-6xl font-bold">$99<span class="text-lg font-medium text-muted">/mo</span></p>
+                    <div class="flex-grow mt-6">
+                        <ul class="space-y-3 text-muted">
+                            <li>✓ Unlimited Projects</li>
+                            <li>✓ Advanced Analytics</li>
+                            <li>✓ Dedicated Support</li>
+                            <li>✓ API Access</li>
+                        </ul>
+                    </div><button class="w-full mt-8 py-3 rounded-lg font-bold btn-primary hover:opacity-90">Choose
+                        Plan</button>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl card flex flex-col">
+                    <h3 class="text-2xl font-bold">Enterprise</h3>
+                    <p class="mt-2 text-5xl font-bold">$299<span class="text-lg font-medium text-muted">/mo</span></p>
+                    <div class="flex-grow mt-6">
+                        <ul class="space-y-3 text-muted">
+                            <li>✓ All Pro Features</li>
+                            <li>✓ Custom Integrations</li>
+                            <li>✓ SSO & Security</li>
+                        </ul>
+                    </div><button
+                        class="w-full mt-8 py-3 rounded-lg font-bold bg-gray-200 text-gray-800 hover:bg-gray-300">Choose
+                        Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-24 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-4" id="faq-container">
+                <div class="faq-item bg-white rounded-lg shadow-sm">
+                    <h3 class="faq-question cursor-pointer flex justify-between items-center p-6 text-lg font-semibold">
+                        <span>Is this compatible with React?</span><span class="text-muted text-2xl font-light">+</span>
+                    </h3>
+                    <div class="faq-answer hidden p-6 pt-0">
+                        <p>Yes, export CSS variables and use them in any framework.</p>
+                    </div>
+                </div>
+                <div class="faq-item bg-white rounded-lg shadow-sm">
+                    <h3 class="faq-question cursor-pointer flex justify-between items-center p-6 text-lg font-semibold">
+                        <span>Can I change the fonts?</span><span class="text-muted text-2xl font-light">+</span></h3>
+                    <div class="faq-answer hidden p-6 pt-0">
+                        <p>Yes, the parent app selects the font family.</p>
+                    </div>
+                </div>
+                <div class="faq-item bg-white rounded-lg shadow-sm">
+                    <h3 class="faq-question cursor-pointer flex justify-between items-center p-6 text-lg font-semibold">
+                        <span>How does direct editing work?</span><span class="text-muted text-2xl font-light">+</span>
+                    </h3>
+                    <div class="faq-answer hidden p-6 pt-0">
+                        <p>Open the customizer, then drag a color from the palette inside and drop it on any element.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background-color: var(--color-footer-bg); color: var(--color-footer-text);">
+        <div class="max-w-7xl mx-auto py-16 px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h3 class="text-2xl font-bold text-white">AI Design Toolkit</h3>
+                    <p class="mt-4 opacity-70">Crafting premium digital experiences.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white">Product</h4>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="opacity-70 hover:opacity-100">Features</a></li>
+                        <li><a href="#" class="opacity-70 hover:opacity-100">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white">Company</h4>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="opacity-70 hover:opacity-100">About</a></li>
+                        <li><a href="#" class="opacity-70 hover:opacity-100">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white">Support</h4>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="opacity-70 hover:opacity-100">Contact Us</a></li>
+                        <li><a href="#" class="opacity-70 hover:opacity-100">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-white/10 pt-8 text-center">
+                <p class="opacity-50">&copy; 2025 AI Design Toolkit, By Mohd Shahrukh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="customizer-toggle"
+        class="fixed bottom-5 right-5 z-50 bg-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-primary hover:scale-110"><svg
+            class="w-8 h-8" stroke-width="1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg></button>
+    <div id="customizer-panel" class="fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl p-6 overflow-y-auto">
+        <div class="flex justify-between items-center">
+            <h2 class="text-xl font-bold">Theme Customizer</h2><button id="customizer-close"
+                class="text-2xl font-bold">&times;</button>
+        </div>
+        <div class="mt-6 mb-4">
+            <div class="flex justify-between items-center">
+                <h3 class="font-semibold">Theme Roles</h3><button id="undo-button"
+                    class="px-3 py-1 text-sm rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">Undo</button>
+            </div>
+            <div id="theme-roles" class="space-y-2 mt-2"></div>
+        </div>
+        <hr class="my-6">
+        <h3 class="font-semibold mb-3">Full Palette <span class="text-sm font-normal text-muted">(Drag Me!)</span></h3>
+        <div id="full-palette" class="flex flex-wrap gap-3"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const theme = JSON.parse(localStorage.getItem('designTheme'));
+            if (!theme || !theme.assignments) { console.error("Theme data is missing or invalid."); return; }
+            window.currentAssignments = theme.assignments;
+            const historyManager = {
+                stack: [], limit: 30,
+                add(action) { this.stack.push(action); if (this.stack.length > this.limit) this.stack.shift(); this.updateButton(); },
+                undo() {
+                    if (this.stack.length === 0) return;
+                    const lastAction = this.stack.pop();
+                    if (lastAction.type === 'role') {
+                        updateColor(lastAction.target, lastAction.previousValue, false);
+                    } else if (lastAction.type === 'direct') {
+                        lastAction.target.style[lastAction.property] = lastAction.previousValue;
+                    }
+                    this.updateButton();
+                },
+                updateButton() { document.getElementById('undo-button').disabled = this.stack.length === 0; }
+            };
+            window.historyManager = historyManager;
+            applyFonts(theme.fonts);
+            applyInitialColors(theme.initialColors);
+            initializeCustomizer(theme.palettes, theme.initialColors);
+            setupEventListeners();
+        });
+
+        function updateColor(role, newColor, recordHistory = true) {
+            if (recordHistory) {
+                const previousValue = window.currentAssignments[role] || getComputedStyle(document.documentElement).getPropertyValue(role).trim();
+                window.historyManager.add({ type: 'role', target: role, previousValue });
+            }
+            document.documentElement.style.setProperty(role, newColor);
+            window.currentAssignments[role] = newColor;
+            if (role === '--color-primary') document.documentElement.style.setProperty('--gradient-start', newColor);
+            if (role === '--color-secondary') document.documentElement.style.setProperty('--gradient-end', newColor);
+            const roleSwatch = document.querySelector(`.role-swatch[data-role='${role}']`);
+            if (roleSwatch) roleSwatch.style.backgroundColor = newColor;
+        }
+
+        function initializeCustomizer(palettes, initialAssignments) {
+            const rolesContainer = document.getElementById('theme-roles');
+            const fullPaletteContainer = document.getElementById('full-palette');
+            [rolesContainer, fullPaletteContainer].forEach(c => c.innerHTML = '');
+            const allColors = [...new Set(Object.values(palettes).flat())];
+            const colorRoles = [
+                { name: 'Primary', var: '--color-primary' }, { name: 'Secondary', var: '--color-secondary' },
+                { name: 'Accent', var: '--color-accent' }, { name: 'Text', var: '--color-text' },
+                { name: 'Muted', var: '--color-muted' }, { name: 'Background', var: '--color-background' },
+                { name: 'Footer BG', var: '--color-footer-bg' }, { name: 'Footer Text', var: '--color-footer-text' }
+            ];
+            colorRoles.forEach(role => {
+                rolesContainer.innerHTML += `<div class="role-drop-zone p-2 flex justify-between items-center bg-gray-50 rounded-lg" data-role="${role.var}"><span class="text-sm font-medium">${role.name}</span><div data-role="${role.var}" style="background-color: ${initialAssignments[role.var]}" class="role-swatch w-8 h-8 rounded-md border shadow cursor-pointer"></div></div>`;
+            });
+            allColors.forEach(color => {
+                fullPaletteContainer.innerHTML += `<div draggable="true" data-color="${color}" style="background-color: ${color}" class="palette-swatch w-9 h-9 rounded-full border-2 border-white shadow-md transition-transform hover:scale-110"></div>`;
+            });
+            document.getElementById('undo-button').disabled = true;
+        }
+
+        function setupEventListeners() {
+            const panel = document.getElementById('customizer-panel');
+            document.getElementById('customizer-toggle').addEventListener('click', () => panel.classList.add('is-open'));
+            document.getElementById('customizer-close').addEventListener('click', () => panel.classList.remove('is-open'));
+            document.getElementById('undo-button').addEventListener('click', () => window.historyManager.undo());
+
+            document.querySelectorAll('.role-drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); updateColor(zone.dataset.role, e.dataTransfer.getData('text/plain')); });
+            });
+
+            let lastHoveredElement = null;
+            document.querySelectorAll('#full-palette .palette-swatch').forEach(s => {
+                s.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', e.target.dataset.color);
+                    // NEW: Auto-close panel on drag
+                    panel.classList.remove('is-open');
+                });
+            });
+
+            document.body.addEventListener('dragover', e => {
+                e.preventDefault();
+                const target = e.target;
+                if (target && target !== lastHoveredElement && !target.closest('#customizer-panel')) {
+                    if (lastHoveredElement) lastHoveredElement.classList.remove('droppable-hover');
+                    target.classList.add('droppable-hover');
+                    lastHoveredElement = target;
+                }
+            });
+
+            document.body.addEventListener('drop', e => {
+                e.preventDefault();
+                if (lastHoveredElement) {
+                    lastHoveredElement.classList.remove('droppable-hover');
+                    const newColor = e.dataTransfer.getData('text/plain');
+                    const targetSVG = lastHoveredElement.closest('svg');
+
+                    if (targetSVG) {
+                        const parent = targetSVG.parentElement;
+                        window.historyManager.add({ type: 'direct', target: parent, property: 'color', previousValue: parent.style.color });
+                        parent.style.color = newColor;
+                    } else {
+                        const property = ['P', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'A', 'LABEL'].includes(lastHoveredElement.tagName) ? 'color' : 'backgroundColor';
+                        window.historyManager.add({ type: 'direct', target: lastHoveredElement, property, previousValue: lastHoveredElement.style[property] });
+                        lastHoveredElement.style[property] = newColor;
+                    }
+                    lastHoveredElement = null;
+                }
+            });
+
+            document.getElementById('faq-container').addEventListener('click', e => {
+                const question = e.target.closest('.faq-question');
+                if (question) {
+                    const answer = question.nextElementSibling;
+                    const isOpen = !answer.classList.contains('hidden');
+                    document.querySelectorAll('.faq-answer').forEach(ans => ans.classList.add('hidden'));
+                    document.querySelectorAll('.faq-question').forEach(q => q.querySelector('span:last-child').textContent = '+');
+                    if (!isOpen) {
+                        answer.classList.remove('hidden');
+                        question.querySelector('span:last-child').textContent = '-';
+                    }
+                }
+            });
+        }
+
+        function applyFonts(fonts) {
+            const link = document.createElement('link');
+            link.href = `https://fonts.googleapis.com/css2?family=${fonts.heading.replace(/ /g, '+')}:wght@700;900&family=${fonts.body.replace(/ /g, '+')}:wght@400;500&display=swap`;
+            link.rel = 'stylesheet'; document.head.appendChild(link);
+            document.documentElement.style.setProperty('--font-heading', `'${fonts.heading}'`);
+            document.documentElement.style.setProperty('--font-body', `'${fonts.body}'`);
+        }
+        function applyInitialColors(assignments) {
+            for (const [role, color] of Object.entries(assignments)) { updateColor(role, color, false); }
+        }
+    </script>
+</body>
+
+</html>
