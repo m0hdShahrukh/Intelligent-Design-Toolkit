@@ -56,84 +56,89 @@ const fontMetadata = {
 };
 
 
-// NEW: The "Hard-Fail" Intelligent Scoring Algorithm
-export const calculateCompatibility = (baseFont, targetFont) => {
-    if (!baseFont || !targetFont || baseFont.family === targetFont.family) return 0;
+// The "Hard-Fail" Intelligent Scoring Algorithm
+export const calculateCompatibility = (baseFont, targetFont, intent = 'classic') => {
+    if (!baseFont || !targetFont || baseFont.family === targetFont.family) {
+        return { score: 0, reasons: [] };
+    }
 
     const getFontProfile = (font) => {
         const profile = { ...font, ...fontMetadata[font.family] };
-        if (!profile.complexity) {
-            profile.complexity = (font.category === 'display' || font.category === 'handwriting') ? 8 : 3;
-        }
-        if (!profile.headline_fitness) {
-            profile.headline_fitness = (font.category === 'display') ? 0.9 : (font.category === 'sans-serif' ? 0.7 : 0.6);
-        }
+        if (!profile.complexity) { profile.complexity = (font.category === 'display' || font.category === 'handwriting') ? 8 : 3; }
+        if (!profile.headline_fitness) { profile.headline_fitness = (font.category === 'display') ? 0.9 : 0.6; }
         if (!profile.body_fitness) {
-            if (['display', 'handwriting'].includes(font.category)) {
-                profile.body_fitness = 0.01; // Extremely low for unreadable categories
-            } else if (['serif', 'sans-serif'].includes(font.category)) {
-                profile.body_fitness = 0.7;
-            } else {
-                profile.body_fitness = 0.5;
-            }
+            if (['display', 'handwriting'].includes(font.category)) { profile.body_fitness = 0.01; } 
+            else if (['serif', 'sans-serif'].includes(font.category)) { profile.body_fitness = 0.7; }
+            else { profile.body_fitness = 0.5; }
         }
         return profile;
     };
 
-    const b = getFontProfile(baseFont); // Base font (as headline)
-    const t = getFontProfile(targetFont); // Target font (as body)
-
-    // --- GUARD CLAUSES: NON-NEGOTIABLE RULES ---
-    // If a pairing violates these, it gets an immediate low score.
+    const b = getFontProfile(baseFont);
+    const t = getFontProfile(targetFont);
+    const reasons = [];
 
     const UNREADABLE_BODY_CATEGORIES = ['handwriting', 'display'];
     
-    // 1. Is the body font unreadable? This is the most critical check.
     if (UNREADABLE_BODY_CATEGORIES.includes(t.category)) {
-        // Return a random low score to feel organic, but always very low.
-        return Math.floor(Math.random() * 8) + 1; // Score between 1-8
+        reasons.push("❌ Fatal Flaw: The body font is a decorative or script style, which is unreadable in paragraphs.");
+        return { score: Math.floor(Math.random() * 8) + 1, reasons };
     }
-
-    // 2. Are both fonts overly decorative and clashing?
     if (UNREADABLE_BODY_CATEGORIES.includes(b.category) && UNREADABLE_BODY_CATEGORIES.includes(t.category)) {
-        return Math.floor(Math.random() * 5); // Score between 0-4
+        reasons.push("❌ Fatal Flaw: Pairing two decorative fonts creates a visual clash and is difficult to read.");
+        return { score: Math.floor(Math.random() * 5), reasons };
     }
 
-    // --- If Guard Clauses Pass, Proceed with Nuanced Scoring ---
-
-    // Factor 1: Role Suitability (0-1) - Is each font good for its job?
-    // Heavily weighted on the body font's readability.
     const roleSuitabilityScore = (b.headline_fitness * 0.4) + (t.body_fitness * 0.6);
+    if (t.body_fitness > 0.85) { reasons.push("✅ Strong Foundation: The body font is highly readable."); }
+    if (b.headline_fitness > 0.85) { reasons.push("✅ Strong Foundation: The headline font is impactful."); }
 
-    // Factor 2: Pairing Harmony (0-1) - Do they look good *together*?
-    let harmonyScore = 0.6; // Start neutral
-    const pairingType = `${b.category}+${t.category}`;
+    let harmonyScore = 0.6;
     const isSuperfamily = b.family.split(' ')[0] === t.family.split(' ')[0] && b.family !== t.family;
 
     if (isSuperfamily) {
         harmonyScore = 1.0;
-    } else if (pairingType.includes('serif') && pairingType.includes('sans-serif')) {
-        harmonyScore = 0.95;
-    } else if (pairingType.includes('display') && pairingType.includes('sans-serif')) {
-        harmonyScore = 0.9;
-    } else if (pairingType.includes('sans-serif') && pairingType.includes('monospace')) {
-        harmonyScore = 0.8;
+        reasons.push("✅ Perfect Harmony: These fonts are from the same family.");
+    } else {
+        switch (intent) {
+            case 'classic':
+                if (b.category === 'serif' && t.category === 'sans-serif') {
+                    harmonyScore = 1.0;
+                    reasons.push("✅ Classic Pairing: A Serif headline and Sans-Serif body offer elegant contrast.");
+                }
+                break;
+            case 'modern':
+                if (b.category === 'sans-serif' && t.category === 'sans-serif') {
+                    harmonyScore = 0.95;
+                    reasons.push("✅ Modern Pairing: Two distinct Sans-Serif fonts create a clean feel.");
+                }
+                break;
+            case 'expressive':
+                if (b.category === 'display' && t.category !== 'display') {
+                    harmonyScore = 1.0;
+                    reasons.push("✅ Expressive Pairing: A bold Display headline makes a strong statement.");
+                }
+                break;
+            default: break;
+        }
     }
-    
-    // Adjust harmony based on complexity contrast
+
     const complexityDiff = Math.abs(b.complexity - t.complexity);
     if (complexityDiff > 4) {
-        harmonyScore += 0.1; // Reward good contrast
+        harmonyScore += 0.1;
+        reasons.push("✅ Good Personality: The headline's complexity is distinct from the body font.");
     } else if (complexityDiff < 2 && !isSuperfamily) {
-        harmonyScore -= 0.15; // Penalize pairs that are too similar (unless they are a superfamily)
+        harmonyScore -= 0.15;
+        reasons.push("⚠️ Caution: These fonts have very similar visual complexity.");
     }
-
-    // --- Final Calculation ---
+    
     const finalScore = roleSuitabilityScore * harmonyScore * 100;
 
-    return Math.max(10, Math.min(99, Math.round(finalScore)));
+    return {
+        score: Math.max(10, Math.min(99, Math.round(finalScore))),
+        reasons: Array.from(new Set(reasons))
+    };
 };
-
 
 export const loadGoogleFont = (fontFamily) => {
     if (!fontFamily || document.getElementById(fontFamily)) return;
